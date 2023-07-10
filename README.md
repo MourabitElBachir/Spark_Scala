@@ -102,3 +102,16 @@ val endTimeWithoutCache = System.nanoTime
 val timeWithoutCache = (endTimeWithoutCache - startTimeWithoutCache) / 1e9d
 println(s"Time without cache: $timeWithoutCache seconds")
 ```
+```scala
+data.persist(StorageLevel.MEMORY_ONLY) // Store DataFrame partitions in memory only === data.cache()
+
+data.persist(StorageLevel.MEMORY_AND_DISK) // Store DataFrame partitions in memory and spill to disk if necessary
+
+data.persist(StorageLevel.MEMORY_ONLY_SER) // Store DataFrame partitions in memory after serializing them
+
+data.persist(StorageLevel.MEMORY_AND_DISK_SER) // Store DataFrame partitions in memory after serializing them, spill to disk if necessary
+
+data.persist(StorageLevel.DISK_ONLY) // Store DataFrame partitions on disk only
+
+data.cache() // Equivalent to MEMORY_ONLY storage level, cache DataFrame partitions in memory
+```
