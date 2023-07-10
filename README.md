@@ -61,4 +61,4 @@ After initializing Spark, you can use it just like you would in a regular Scala 
 val sparkDF = spark.read.json("examples/src/main/resources/people.json")
 sparkDF.show()
 ```
-<b>Note:<:b> The pip install ... commands are to be run in the terminal. If you're installing these packages system-wide or in a Python environment, you may want to run pip install ... commands directly in the terminal without the preceding exclamation mark.
+<b>Note:</b> The pip install ... commands are to be run in the terminal. If you're installing these packages system-wide or in a Python environment, you may want to run pip install ... commands directly in the terminal without the preceding exclamation mark.
