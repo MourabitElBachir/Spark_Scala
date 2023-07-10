@@ -50,7 +50,7 @@ Initialize Spark using the `%%init_spark` magic command:
 launcher.master = "local[*]"
 launcher.conf.spark.app.name = "My Spark App"
 launcher.conf.spark.executor.memory = "4g"
-
+```
 In this configuration, Spark is running in local mode using all available cores (indicated by the asterisk in "local[*]"). The Spark application name is set to "My Spark App", and the executor memory is set to 4 GB.
 
 You have to execute the %%init_spark command at the beginning of the notebook before executing any other cell that uses Spark.
