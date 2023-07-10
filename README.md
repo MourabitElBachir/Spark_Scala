@@ -62,3 +62,43 @@ val sparkDF = spark.read.json("examples/src/main/resources/people.json")
 sparkDF.show()
 ```
 <b>Note:</b> The pip install ... commands are to be run in the terminal. If you're installing these packages system-wide or in a Python environment, you may want to run pip install ... commands directly in the terminal without the preceding exclamation mark.
+
+
+### Cache en Spark 
+
+```scala
+import org.apache.spark.sql.functions._
+import spark.implicits._
+
+// Define a large DataFrame
+val df = spark.range(0, 10000000).toDF("id")
+
+// Apply some transformation
+val transformedDf = df.withColumn("new_column", expr("id * 5"))
+
+// Cache the DataFrame
+transformedDf.cache()
+
+// Start the timer
+val startTimeWithCache = System.nanoTime
+
+// Perform an action to trigger the computations
+transformedDf.count()
+
+// End the timer
+val endTimeWithCache = System.nanoTime
+
+val timeWithCache = (endTimeWithCache - startTimeWithCache) / 1e9d
+println(s"Time with cache: $timeWithCache seconds")
+
+transformedDf.unpersist()
+
+val startTimeWithoutCache = System.nanoTime
+
+transformedDf.count()
+
+val endTimeWithoutCache = System.nanoTime
+
+val timeWithoutCache = (endTimeWithoutCache - startTimeWithoutCache) / 1e9d
+println(s"Time without cache: $timeWithoutCache seconds")
+```
