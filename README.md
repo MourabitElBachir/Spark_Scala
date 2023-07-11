@@ -117,20 +117,54 @@ data.cache() // Equivalent to MEMORY_ONLY storage level, cache DataFrame partiti
 ```
 
 ### Create a project with modules using build.sbt 
-```ruby
-mon-projet-spark
-|-- build.sbt
-|-- project
-|   |-- build.properties
-|-- module1
-|   |-- src
-|   |   |-- main
-|   |   |   |-- scala
-|   |   |   |   |-- Module1.scala
-|-- module2
-|   |-- src
-|   |   |-- main
-|   |   |   |-- scala
-|   |   |   |   |-- Module2.scala
+
+
+## Configuration du Projet
+
+Le fichier `build.sbt` racine devrait ressembler à ceci:
+
+```sbt
+lazy val root = (project in file("."))
+  .aggregate(module1, module2)
+  .settings(
+    name := "mon-projet-spark",
+    version := "0.1",
+    scalaVersion := "2.12.10"
+  )
+
+lazy val module1 = (project in file("module1"))
+  .settings(
+    name := "module1",
+    version := "0.1",
+    scalaVersion := "2.12.10",
+    libraryDependencies += "org.apache.spark" %% "spark-core" % "3.0.1",
+    libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.1"
+  )
+
+lazy val module2 = (project in file("module2"))
+  .settings(
+    name := "module2",
+    version := "0.1",
+    scalaVersion := "2.12.10",
+    libraryDependencies += "org.apache.spark" %% "spark-core" % "3.0.1",
+    libraryDependencies += "org.apache.spark" %% "spark-sql" % "3.0.1"
+  )
 ```
+
+Et le fichier project/build.properties :
+
+```sbt
+sbt.version = 1.4.1
+```
+
+### Compilation et Empaquetage du Projet
+Pour compiler le projet entier, naviguez vers le répertoire racine et exécutez:
+```sbt
+sbt compile
+```
+Pour empaqueter le projet en un fichier JAR, exécutez :
+```sbt
+sbt package
+```
+Cela va créer un fichier JAR pour chaque module dans le répertoire target/scala-2.12 de chaque module.
 
