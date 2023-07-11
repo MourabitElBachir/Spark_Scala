@@ -115,3 +115,22 @@ data.persist(StorageLevel.DISK_ONLY) // Store DataFrame partitions on disk only
 
 data.cache() // Equivalent to MEMORY_ONLY storage level, cache DataFrame partitions in memory
 ```
+
+### Create a project with modules using build.sbt 
+```ruby
+mon-projet-spark
+|-- build.sbt
+|-- project
+|   |-- build.properties
+|-- module1
+|   |-- src
+|   |   |-- main
+|   |   |   |-- scala
+|   |   |   |   |-- Module1.scala
+|-- module2
+|   |-- src
+|   |   |-- main
+|   |   |   |-- scala
+|   |   |   |   |-- Module2.scala
+```
+
