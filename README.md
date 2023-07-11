@@ -186,3 +186,32 @@ sbt package
 ```
 Cela va créer un fichier JAR pour chaque module dans le répertoire target/scala-2.12 de chaque module.
 
+### Creation automatique des sources :
+
+```sbt
+lazy val createDirectories = taskKey[Unit]("Create src and test directories")
+
+createDirectories := {
+  val s: TaskStreams = streams.value
+  val baseDirs = Seq((Compile, baseDirectory.value / "src", baseDirectory.value / "test"),
+    (Test, baseDirectory.value / "src" / "test", baseDirectory.value / "test" / "test"))
+  baseDirs.foreach {
+    case (conf, srcDir, testDir) => {
+      Seq("main", "test").foreach(d => {
+        if (!Files.exists(srcDir.toPath.resolve(d))) {
+          s.log.info(s"Creating source directory: ${srcDir / d}")
+          IO.createDirectory(srcDir / d)
+        }
+        if (!Files.exists(testDir.toPath.resolve(d))) {
+          s.log.info(s"Creating test directory: ${testDir / d}")
+          IO.createDirectory(testDir / d)
+        }
+      })
+    }
+  }
+}
+
+// Call the task when SBT loads
+onLoad in Global := ((s: State) => "createDirectories" :: s.get(onLoad in Global).getOrElse(identity[State] _)(s))
+```
+
