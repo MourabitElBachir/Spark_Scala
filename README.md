@@ -116,10 +116,28 @@ data.persist(StorageLevel.DISK_ONLY) // Store DataFrame partitions on disk only
 data.cache() // Equivalent to MEMORY_ONLY storage level, cache DataFrame partitions in memory
 ```
 
-### Create a project with modules using build.sbt 
+## Create a project with modules using build.sbt 
 
+### Structure du Projet
+```ruby
+mon-projet-spark
+|-- build.sbt
+|-- project
+|   |-- build.properties
+|-- module1
+|   |-- src
+|   |   |-- main
+|   |   |   |-- scala
+|   |   |   |   |-- Module1.scala
+|-- module2
+|   |-- src
+|   |   |-- main
+|   |   |   |-- scala
+|   |   |   |   |-- Module2.scala
 
-## Configuration du Projet
+```
+
+### Configuration du Projet
 
 Le fichier `build.sbt` racine devrait ressembler à ceci:
 
