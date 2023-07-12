@@ -233,6 +233,45 @@ Il faut choisir : spark-3.0.1-bin-hadoop2.7.tgz
    ![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/b6c9cdcf-fa17-4c2a-9d42-4add0c3d42f8)
    ![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/0ee717e0-4991-4440-838b-4424f08fbf49)
 
+## Spark Streaming :
+
+1- Code scala/Spark :
+
+```
+import org.apache.spark._
+import org.apache.spark.streaming._
+import org.apache.spark.streaming.flume._
+
+object StreamingFlumeLogAggregator {
+  def main(args: Array[String]) {
+    val conf = new SparkConf().setAppName("StreamingFlumeLogAggregator")
+    val ssc = new StreamingContext(conf, Seconds(1))
+
+    val flumeStream = FlumeUtils.createStream(ssc, "localhost", 9092)
+
+    val lines = flumeStream.map(e => new String(e.event.getBody.array()))
+
+    val pattern = """(?x)^(\S+) \S+ (\S+) \[([\w:/]+\s[+\-]\d{4})\] "(\S+) (\S+)\s*(\S*)" (\d{3}) (\S+) "(\S+)" "(.+)"$""".r
+
+    val urls = lines.flatMap {
+      case pattern(_, _, _, _, url, _, _, _, _, _) => Some(url)
+      case _ => None
+    }
+
+    val urlCounts = urls.map(url => (url, 1))
+      .reduceByKeyAndWindow(_ + _, _ - _, Minutes(5), Seconds(1))
+
+    val sortedResults = urlCounts.transform(rdd => rdd.sortBy(x => x._2, false))
+
+    sortedResults.print()
+
+    ssc.checkpoint("/home/maria_dev/checkpoint")
+    ssc.start()
+    ssc.awaitTermination()
+  }
+}
+```
+
 
 
 
