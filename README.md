@@ -210,8 +210,26 @@ createDirectories := {
     }
   }
 }
-
 // Call the task when SBT loads
 onLoad in Global := ((s: State) => "createDirectories" :: s.get(onLoad in Global).getOrElse(identity[State] _)(s))
 ```
+## Installer Spark & Hadoop localement sur Windows
+
+1. Download Hadoop : https://github.com/steveloughran/winutils/
+2. Choisir Hadoop 2.7.1 :
+![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/f2fba0ef-5e4a-4a75-b262-b6d1d80ed98a)
+3. Download Spark à partir des archives : https://archive.apache.org/dist/spark/spark-3.0.1/
+Il faut choisir : spark-3.0.1-bin-hadoop2.7.tgz
+![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/81cc0c47-e9d1-4547-a60d-91a3d630f647)
+4. Déplacer les dossier décompresser vers C:/
+5. Mettre les chemins dans le Path :
+   ![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/861fb57c-71a7-4e05-8080-713782d02b68)
+   ![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/b6c9cdcf-fa17-4c2a-9d42-4add0c3d42f8)
+   ![image](https://github.com/MourabitElBachir/Spark_Scala/assets/32568108/0ee717e0-4991-4440-838b-4424f08fbf49)
+
+
+
+
+
+
 
